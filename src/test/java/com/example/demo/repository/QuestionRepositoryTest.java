@@ -2,21 +2,15 @@ package com.example.demo.repository;
 
 import com.example.demo.entity.Question;
 import com.example.demo.entity.User;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.example.demo.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class QuestionRepositoryTest {
@@ -84,16 +78,42 @@ class QuestionRepositoryTest {
         System.out.println(byQuestioner);
     }
 
+//    @Test
+//    void findPage(){
+//        PageHelper.startPage(0,5);
+//        ArrayList<Question> byQuestioner = questionRepository.findByQuestioner("root");
+//        PageInfo<Question> pageInfo = new PageInfo<>(byQuestioner);
+//        System.out.println("总数量：" + pageInfo.getTotal());
+//        System.out.println("当前页查询记录：" + pageInfo.getList().size());
+//        System.out.println("当前页码：" + pageInfo.getPageNum());
+//        System.out.println("每页显示数量：" + pageInfo.getPageSize());
+//        System.out.println("总页：" + pageInfo.getPages());
+//    }
+
     @Test
-    void findPage(){
-        PageHelper.startPage(0,5);
-        ArrayList<Question> byQuestioner = questionRepository.findByQuestioner("root");
-        PageInfo<Question> pageInfo = new PageInfo<>(byQuestioner);
-        System.out.println("总数量：" + pageInfo.getTotal());
-        System.out.println("当前页查询记录：" + pageInfo.getList().size());
-        System.out.println("当前页码：" + pageInfo.getPageNum());
-        System.out.println("每页显示数量：" + pageInfo.getPageSize());
-        System.out.println("总页：" + pageInfo.getPages());
+    void editPassword(){
+        User user = new User();
+        user.setId(4);
+        user.setPassword("demo123");
+    }
+
+    @Test
+    void createUser(){
+        User user = new User();
+        user.setName("yaojiabin");
+        user.setPassword("yaojiabin");
+        user.setId(5);
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss");
+        String format = dateFormat.format(date);
+        user.setGmt_create(format);
+        userRepository.save(user);
+    }
+
+    @Test
+    void multy(){
+        List<User> list = userRepository.findByName("root");
+        System.out.println(list.size());
 
     }
 }

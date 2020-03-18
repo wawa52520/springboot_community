@@ -1,15 +1,15 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.User;
+import com.example.demo.mapper.UserMapper;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -17,6 +17,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    private UserMapper userMapper;
 
     @GetMapping("/findByUserAndPassword/{user}/{pass}")
     public List<User> findUserAndPass(@PathVariable String user,
@@ -33,5 +35,34 @@ public class UserController {
             return byNameAndPassword;
         }
 
+    }
+
+
+    //更改密码
+    @PostMapping("/updatePasswordById")
+    public String updatePasswordById(@RequestBody User user){
+        //创建日期
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss");
+        String format = dateFormat.format(date);
+        user.setGmt_modified(format);
+        userMapper.updateById(user);
+        return null;
+    }
+
+
+    //创建用户，先判断用户名是否存在，存在return false，否则则存入
+    @PostMapping("/register")
+    public String createUser(@RequestBody User user){
+        List<User> NameNumber = userRepository.findByName(user.getName());
+        if (NameNumber.size()<1){
+            Date date = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss");
+            String format = dateFormat.format(date);
+            user.setGmt_create(format);
+            userRepository.save(user);
+            return "success";
+        }else
+            return "false";
     }
 }
