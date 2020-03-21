@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.Question;
+import com.example.demo.entity.Student;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,10 @@ class QuestionRepositoryTest {
     private QuestionRepository questionRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private StudentRepository studentRepository;
+    @Autowired
+    private TeacherRepository teacherRepository;
 
     @Test
     void findAll() {
@@ -114,6 +119,37 @@ class QuestionRepositoryTest {
     void multy(){
         List<User> list = userRepository.findByName("root");
         System.out.println(list.size());
+    }
 
+    @Test
+    void add(){
+//        User user = new User();
+//        user.setName("test");
+//        user.setPassword("test");
+//        userRepository.save(user);
+
+        List<User> getId = userRepository.findByName("test");
+        Integer userId = getId.get(0).getId();
+        String UserName = getId.get(0).getName();
+        System.out.println("all:"+ userId);
+        Student student = new Student();
+        student.setId(userId);
+        student.setStu_name(UserName);
+        studentRepository.save(student);
+    }
+
+    @Test
+    void checkPower(){
+//        User user = new User();
+//        user.setName("stu");
+//        user.setPassword("stu");
+//        user.setPower("学生");
+        List<User> byNameAndPasswordAndPower = userRepository.findByNameAndPasswordAndPower("stu", "stu", "学生");
+        System.out.println("原:"+byNameAndPasswordAndPower);
+        System.out.println("size:"+byNameAndPasswordAndPower.size());
+        System.out.println("get:"+byNameAndPasswordAndPower.get(0));
+        List<User> byNameAndPasswordAndPower1 = userRepository.findByNameAndPasswordAndPower("stu", "stu1", "学生");
+        System.out.println("原1:"+byNameAndPasswordAndPower1);
+        System.out.println("size1:"+byNameAndPasswordAndPower1.size());
     }
 }
