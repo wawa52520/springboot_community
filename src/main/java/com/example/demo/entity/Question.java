@@ -21,4 +21,5 @@ public class Question {
     private String tag;
     private String gmt_modified;
     private String teacherTag;
+    private String replied;
 }

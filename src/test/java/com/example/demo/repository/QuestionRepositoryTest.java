@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -77,11 +78,7 @@ class QuestionRepositoryTest {
         System.out.println("get(0):" + user);
         System.out.println("no:" + byNameAndPassword);
     }
-    @Test
-    void findQuestionByUserName(){
-        List<Question> byQuestioner = questionRepository.findByQuestioner("root");
-        System.out.println(byQuestioner);
-    }
+
 
 //    @Test
 //    void findPage(){
@@ -152,4 +149,17 @@ class QuestionRepositoryTest {
         System.out.println("原1:"+byNameAndPasswordAndPower1);
         System.out.println("size1:"+byNameAndPasswordAndPower1.size());
     }
+
+    @Test
+    void test(){
+        ArrayList<Object> arrayList = new ArrayList<>(1000000);
+        Long startTime=System.currentTimeMillis();
+        for (int i = 0; i < 1000000; i++) {
+            arrayList.add(i+"");
+        }
+        Long endTime=System.currentTimeMillis();
+        Long totalTime=endTime-startTime;
+
+    }
+
 }

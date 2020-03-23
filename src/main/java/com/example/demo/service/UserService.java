@@ -28,6 +28,7 @@ public class UserService {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss");
             String format = dateFormat.format(date);
             user.setGmt_create(format);
+            user.setPower("学生");
             userRepository.save(user);
             //用户表保存同时保存到学生表
             Student student = new Student();
