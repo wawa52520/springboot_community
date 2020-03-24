@@ -12,5 +12,5 @@ import java.util.List;
 //question表名，long主键类型
 public interface QuestionRepository extends JpaRepository<Question,Integer> {
     Page<Question> findByQuestioner(String questioner,Pageable pageable);
-    Page<Question> findByTeacherTag(String teacher,Pageable pageable);
+    Page<Question> findByTeacherTagAndReplied(String teacher,String replied,Pageable pageable);
 }

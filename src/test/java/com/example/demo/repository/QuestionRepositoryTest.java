@@ -3,6 +3,7 @@ package com.example.demo.repository;
 import com.example.demo.entity.Question;
 import com.example.demo.entity.Student;
 import com.example.demo.entity.User;
+import com.example.demo.mapper.QuestionMapper;
 import com.example.demo.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ class QuestionRepositoryTest {
     private StudentRepository studentRepository;
     @Autowired
     private TeacherRepository teacherRepository;
+    @Autowired
+    private QuestionMapper questionMapper;
 
     @Test
     void findAll() {
@@ -160,6 +163,19 @@ class QuestionRepositoryTest {
         Long endTime=System.currentTimeMillis();
         Long totalTime=endTime-startTime;
 
+    }
+
+    @Test
+    void answer(){
+        Question question = new Question();
+        question.setAnswer("这是一个回复123");
+        question.setId(1);
+        question.setReplied("是");
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss");
+        String format = dateFormat.format(date);
+        question.setGmt_modified(format);
+        questionMapper.answerQuestion(question);
     }
 
 }

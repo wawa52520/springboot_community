@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Question;
+import com.example.demo.mapper.QuestionMapper;
 import com.example.demo.repository.QuestionRepository;
 import com.example.demo.service.QuestionService;
 import com.github.pagehelper.PageHelper;
@@ -22,6 +23,8 @@ public class QuestionController {
     QuestionRepository questionRepository;
     @Autowired
     QuestionService questionService;
+    @Autowired
+    QuestionMapper questionMapper;
 
     //分页
     @GetMapping("/findAll/{page}/{size}")
@@ -36,7 +39,7 @@ public class QuestionController {
     public String Save(@RequestBody Question question) {
         //创建日期
         Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss");
         String format = dateFormat.format(date);
         question.setGmt_create(format);
         question.setReplied("否");
@@ -57,8 +60,8 @@ public class QuestionController {
 
     @GetMapping("/findByQuestioner/{questioner}/{page}/{size}")
     public Page<Question> findByQuestioner(@PathVariable("page") Integer page,
-                                               @PathVariable("size") Integer size,
-                                               @PathVariable String questioner) {
+                                           @PathVariable("size") Integer size,
+                                           @PathVariable String questioner) {
         PageRequest pageRequest = PageRequest.of(page, size);
         Page<Question> byQuestioner = questionRepository.findByQuestioner(questioner, pageRequest);
         return byQuestioner;
@@ -67,7 +70,7 @@ public class QuestionController {
     @PostMapping("/update")
     public String update(@RequestBody Question question) {
         Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss");
         String format = dateFormat.format(date);
         question.setGmt_modified(format);
         Question result = questionRepository.save(question);
@@ -82,14 +85,28 @@ public class QuestionController {
     public void delete(@PathVariable Integer id) {
         questionRepository.deleteById(id);
     }
-    //教师回复页面
-    @GetMapping("/teacherAnswer/{username}/{page}/{size}")
+
+    //教师回复页面(待回复)
+    @GetMapping("/teacherAnswer/{username}/{replied}/{page}/{size}")
     public Page<Question> findTeacher(@PathVariable String username,
-                                           @PathVariable("page") Integer page,
-                                           @PathVariable("size") Integer size
-                                           ) {
+                                      @PathVariable String replied,
+                                      @PathVariable("page") Integer page,
+                                      @PathVariable("size") Integer size
+    ) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        Page<Question> byTeacherTag = questionRepository.findByTeacherTag(username, pageRequest);
+        Page<Question> byTeacherTag = questionRepository.findByTeacherTagAndReplied(username, replied, pageRequest);
         return byTeacherTag;
+    }
+
+    //教师回复功能
+    @PostMapping("/answerQuestion")
+    public String answerQuestion(@RequestBody Question question) {
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss");
+        String format = dateFormat.format(date);
+        question.setGmt_modified(format);
+        question.setReplied("是");
+        questionMapper.answerQuestion(question);
+        return "success";
     }
 }
