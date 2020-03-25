@@ -67,12 +67,14 @@ public class QuestionController {
         return byQuestioner;
     }
 
+    //修改问题
     @PostMapping("/update")
     public String update(@RequestBody Question question) {
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss");
         String format = dateFormat.format(date);
         question.setGmt_modified(format);
+        question.setReplied("否");
         Question result = questionRepository.save(question);
         if (result != null) {
             return "success";
@@ -86,7 +88,7 @@ public class QuestionController {
         questionRepository.deleteById(id);
     }
 
-    //教师回复页面(待回复)
+    //教师查看回复页面
     @GetMapping("/teacherAnswer/{username}/{replied}/{page}/{size}")
     public Page<Question> findTeacher(@PathVariable String username,
                                       @PathVariable String replied,
@@ -98,6 +100,7 @@ public class QuestionController {
         return byTeacherTag;
     }
 
+
     //教师回复功能
     @PostMapping("/answerQuestion")
     public String answerQuestion(@RequestBody Question question) {
@@ -108,5 +111,14 @@ public class QuestionController {
         question.setReplied("是");
         questionMapper.answerQuestion(question);
         return "success";
+    }
+
+    //搜索功能
+    @GetMapping("/searchQuestion/{title}/{page}/{size}")
+    public Page<Question> searchQuestion(@PathVariable String title,
+                                         @PathVariable("page") Integer page,
+                                         @PathVariable("size") Integer size) {
+        Page<Question> questions = questionService.searchQuestion(title, page, size);
+        return questions;
     }
 }

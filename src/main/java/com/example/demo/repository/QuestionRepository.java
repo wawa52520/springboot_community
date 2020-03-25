@@ -13,4 +13,6 @@ import java.util.List;
 public interface QuestionRepository extends JpaRepository<Question,Integer> {
     Page<Question> findByQuestioner(String questioner,Pageable pageable);
     Page<Question> findByTeacherTagAndReplied(String teacher,String replied,Pageable pageable);
+    Page<Question> findByTitleLike(String title,Pageable pageable);
+    ArrayList<Question> findByTitleLike(String title);
 }

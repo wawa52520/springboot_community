@@ -5,9 +5,12 @@ import com.example.demo.entity.Student;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.QuestionMapper;
 import com.example.demo.mapper.UserMapper;
+import com.example.demo.service.QuestionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +30,8 @@ class QuestionRepositoryTest {
     private TeacherRepository teacherRepository;
     @Autowired
     private QuestionMapper questionMapper;
+    @Autowired
+    private QuestionService questionService;
 
     @Test
     void findAll() {
@@ -178,4 +183,12 @@ class QuestionRepositoryTest {
         questionMapper.answerQuestion(question);
     }
 
+    @Test
+    void search(){
+//        Page<Question> spring = questionService.searchQuestion("spring", 1, 5);
+//        System.out.println("结果:"+spring);
+
+        ArrayList<Question> spring = questionRepository.findByTitleLike("%啊%");
+        System.out.println(spring);
+    }
 }
