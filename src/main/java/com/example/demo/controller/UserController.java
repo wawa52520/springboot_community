@@ -5,6 +5,7 @@ import com.example.demo.mapper.UserMapper;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,9 +30,9 @@ public class UserController {
                                       @PathVariable String type) {
         String s = userService.checkPower(user, pass, type);
         List<User> byNameAndPasswordAndPower = userRepository.findByNameAndPasswordAndPower(user, pass, type);
-        if (s.equals("success")){
+        if (s.equals("success")) {
             return byNameAndPasswordAndPower;
-        }else
+        } else
             return null;
     }
 
@@ -45,7 +46,7 @@ public class UserController {
         String format = dateFormat.format(date);
         user.setGmt_modified(format);
         userMapper.updateById(user);
-        return null;
+        return "success";
     }
 
 
@@ -53,9 +54,41 @@ public class UserController {
     @PostMapping("/register")
     public String createUser(@RequestBody User user) {
         String s = userService.createUser(user);
-        if (s.equals("success")){
+        if (s.equals("success")) {
             return "success";
-        }else
+        } else
             return "false";
     }
+
+    //管理员页面展示所有用户
+    @GetMapping("/findAllUser/{page}/{size}")
+    public Page<User> findAllUser(@PathVariable Integer page,
+                                  @PathVariable Integer size) {
+        Page<User> allUser = userService.findAllUser(page, size);
+        return allUser;
+    }
+
+    @DeleteMapping("/deleteByUserId/{id}")
+    public String deleteByUserId(@PathVariable Integer id) {
+        String s = userService.deleteByUserId(id);
+        return s;
+    }
+
+    @GetMapping("/findByUserId/{id}")
+    public User findByUserId(@PathVariable Integer id){
+        User byUserId = userService.findByUserId(id);
+        return byUserId;
+    }
+
+    //管理员更新用户信息
+    @PostMapping("/UpdateUser")
+    public String updateUser(@RequestBody User user){
+        String updateUser = userService.UpdateUser(user);
+        if (updateUser.equals("success")) {
+            return "success";
+        }else {
+            return "false";
+        }
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Question;
+import com.example.demo.entity.User;
 import com.example.demo.mapper.QuestionMapper;
 import com.example.demo.repository.QuestionRepository;
 import com.example.demo.service.QuestionService;
@@ -121,4 +122,6 @@ public class QuestionController {
         Page<Question> questions = questionService.searchQuestion(title, page, size);
         return questions;
     }
+
+
 }
