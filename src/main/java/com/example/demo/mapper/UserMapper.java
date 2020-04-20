@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.List;
+
 @Mapper
 public interface UserMapper {
     @Insert("insert into user(name,password) values (#{name},#{password})")
@@ -14,4 +16,7 @@ public interface UserMapper {
     //根据ID更改密码
     @Update("update user set password = #{password},gmt_modified=#{gmt_modified} where id = #{id}")
     void updateById(User user);
+
+    @Update("update user set power = #{power} where id =#{id}")
+    void updatePower(Integer id,String power);
 }

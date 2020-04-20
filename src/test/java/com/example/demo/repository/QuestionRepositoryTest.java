@@ -1,10 +1,7 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.Question;
-import com.example.demo.entity.Student;
-import com.example.demo.entity.User;
-import com.example.demo.mapper.QuestionMapper;
-import com.example.demo.mapper.UserMapper;
+import com.example.demo.entity.*;
+import com.example.demo.mapper.*;
 import com.example.demo.service.QuestionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +29,14 @@ class QuestionRepositoryTest {
     private QuestionMapper questionMapper;
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private StudentMapper studentMapper;
+    @Autowired
+    private AdminMapper adminMapper;
+    @Autowired
+    private TeacherMapper teacherMapper;
 
 //    @Test
 //    void findAll() {
@@ -75,8 +80,6 @@ class QuestionRepositoryTest {
 //        String format = simpleDateFormat.format(date);
 //        System.out.println(format);
 //    }
-
-
 
 
 //    @Test
@@ -173,9 +176,12 @@ class QuestionRepositoryTest {
 //        ArrayList<Question> spring = questionRepository.findByTitleLike("%啊%");
 //        System.out.println(spring);
 //    }
-@Test
-    void round(){
-    long round = Math.round(2.5);
-    System.out.println(round);
-}
+//
+
+
+    @Test
+    void find() {
+
+        teacherMapper.deleteTeacherById(5);
+    }
 }

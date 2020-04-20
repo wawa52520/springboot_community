@@ -9,10 +9,9 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-public class Student {
+public class Admin {
     @Id//表明主键
     @GeneratedValue(strategy = GenerationType.IDENTITY)//设置自增
     private Integer id;
-    private String stu_name;
-    private Integer question_id;
+    private String admin_name;
 }
