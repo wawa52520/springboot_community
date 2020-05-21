@@ -10,10 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @SpringBootTest
 class QuestionRepositoryTest {
@@ -182,6 +179,11 @@ class QuestionRepositoryTest {
     @Test
     void find() {
 
-        teacherMapper.deleteTeacherById(5);
+//        teacherMapper.deleteTeacherById(5);
+        List<Map> tagCount = questionMapper.findTagCount();
+        System.out.println(tagCount);
+
+//        List<Map> tst = questionMapper.tst();
+//        System.out.println(tst);
     }
 }

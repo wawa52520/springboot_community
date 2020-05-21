@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/Question")
@@ -123,5 +125,13 @@ public class QuestionController {
         return questions;
     }
 
+    @GetMapping("/tagCount")
+    public List<Map> tagCount(){
+        return questionService.tagCount();
+    }
 
+    @GetMapping("/userCount")
+    public List<Map> userCount(){
+        return questionService.userCount();
+    }
 }

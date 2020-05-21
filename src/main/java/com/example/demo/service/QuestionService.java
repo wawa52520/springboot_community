@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class QuestionService {
@@ -38,5 +40,15 @@ public class QuestionService {
         PageRequest pageRequest = PageRequest.of(page, size);
         Page<Question> byTitleLike = questionRepository.findByTitleLike("%"+title+"%", pageRequest);
         return byTitleLike;
+    }
+
+    public List<Map> tagCount(){
+        List<Map> tagCount = questionMapper.findTagCount();
+        return tagCount;
+    }
+
+    public List<Map> userCount(){
+        List<Map> userCount = questionMapper.findUserCount();
+        return userCount;
     }
 }
