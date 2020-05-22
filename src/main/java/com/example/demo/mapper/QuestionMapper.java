@@ -17,7 +17,7 @@ public interface QuestionMapper {
 //    @Select("select * from question")
 //    List<Map> tst();
 
-    @Select("select tag,count(*)as 次数 from question group by tag limit 3 ")
+    @Select("select tag,count(*)as 次数 from question group by tag order by 次数 DESC limit 3 ")
     List<Map> findTagCount();
 
     @Select("select questioner,count(*)as 次数 from question group by questioner order by 次数 DESC limit 3 ")

@@ -53,7 +53,8 @@ public class UserService {
             Student student = new Student();
             student.setStu_name(user.getName());
             student.setId(user.getId());
-            studentRepository.save(student);
+            studentMapper.insertStudent(student);
+//            studentRepository.save(student);
             return "success";
         } else
             return "false";
